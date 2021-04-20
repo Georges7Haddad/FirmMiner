@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+            crossorigin="anonymous"></script>
+    <title>Attorneys</title>
+</head>
+<body class="p-5">
+<div class="col text-center">
+    <h1>{{ firm.name }}</h1>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Send Email</button>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Send Email</h5>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {% if not attorneys %}
+                        <h5>Emailing: {{ firm.email }}</h5>
+                    {% else %}
+                    {% endif %}
+                    <br>
+                    {% for field in email_form %}
+                        {{ field.label }}<br>
+                        {{ field }}<br>
+                    {% endfor %}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    {% for attorney in attorneys %}
+        <div class="col-sm-2">
+            <div class="card">
+                <img class="card-img-top" src="{{ attorney.picture }}" alt="Profile">
+                <div class="card-body">
+                    <h5 class="card-title">{{ attorney.name }}</h5>
+                    <p class="card-text"><a href="tell:{{ attorney.phone_number }}">{{ attorney.phone_number }}</a></p>
+                    <p class="card-text"><a href="mailto:{{ attorney.email }}">{{ attorney.email }}</a></p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>

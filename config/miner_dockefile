@@ -1,0 +1,16 @@
+FROM python:3.7-slim
+
+WORKDIR /usr/src/app
+
+
+# Install Requirements
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+
+# copy source files
+COPY . .
+
+EXPOSE 8000
+
+CMD ["python", "main.py"]
+

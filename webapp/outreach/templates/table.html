@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Firms</title>
+</head>
+<body class="p-5">
+<form method="get" class="form-group form-row">
+    {% for field in firms.form %}
+        <div class="col">
+            {{ field.label }}
+            {{ field }}
+        </div>
+    {% endfor %}
+    <br>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+<div class="col text-center">
+    <button id="rankingsButton" class="btn btn-primary">Show Rankings</button>
+</div>
+<br>
+<table class="table">
+    <thead>
+    <tr class="d-flex">
+        <th scope="col" class="col-1">Name</th>
+        <th scope="col" class="col-2">Location</th>
+        <th scope="col" class="col-2">Address</th>
+        <th scope="col" class="col-3">Email</th>
+        <th scope="col" class="col-3">Website</th>
+        <th scope="col" class="col-2">Phone Number <br> Fax Number</th>
+        <th scope="col" class="col-2 rankings">Top Tier Firm Rankings</th>
+        <th scope="col" class="col-2 rankings">Firm Rankings</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for firm in firms.qs %}
+        <tr class="d-flex">
+            <td class="col-1"><a href="firm/{{ firm.name }}/attorneys">{{ firm.name }}</a></td>
+            <td class="col-2">{{ firm.city_name }}</td>
+            <td class="col-2">{{ firm.address }}</td>
+            <td class="col-3"><a href="mailto:{{ firm.email }}">{{ firm.email }}</a></td>
+            <td class="col-3"><a href="{{ firm.website }}">{{ firm.website }}</a></td>
+            <td class="col-2">
+                <a href="tell:{{ firm.phone_number }}">{{ firm.phone_number }} <br> </a>{{ firm.fax_number }}
+            </td>
+            <td class="col-2 rankings">
+                {% for ranking in firm.top_tier_firm_rankings.all %}{{ ranking }} {% endfor %}</td>
+            <td class="col-2 rankings">{% for ranking in firm.firm_rankings.all %}{{ ranking }} {% endfor %}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+<script>
+    window.onload = () => {
+        var inputs = document.getElementsByTagName("input")
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].className = "form-control"
+        }
+        var selects = document.getElementsByTagName("select")
+        for (let i = 0; i < selects.length; i++) {
+            selects[i].className = "form-control"
+        }
+        var rankings = document.getElementsByClassName("rankings")
+        for (let i = 0; i < rankings.length; i++) {
+            rankings[i].style.display = "none"
+        }
+        document.getElementById("rankingsButton").addEventListener("click", showRankings)
+    }
+
+    function showRankings() {
+        var rankings = document.getElementsByClassName("rankings")
+        if (document.getElementById("rankingsButton").innerText === "Show Rankings") {
+            document.getElementById("rankingsButton").innerText = "Hide Rankings"
+            for (let i = 0; i < rankings.length; i++) {
+                rankings[i].style.display = ""
+            }
+        } else {
+            document.getElementById("rankingsButton").innerText = "Show Rankings"
+            for (let i = 0; i < rankings.length; i++) {
+                rankings[i].style.display = "none"
+            }
+        }
+    }
+
+</script>
+</html>
