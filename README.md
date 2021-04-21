@@ -13,7 +13,8 @@ then cold email "en masse" in order to pitch robinai's products and bring in new
 This project consists of 4 main services. All the services are dockerized and managed using docker compose for 
 simplicity.
 ### Scraper
-I built a spider using scrapy that fetches attorney firm data from [legal500.com](https://legal500.com). 
+I built a spider using scrapy that fetches attorney firm data from [legal500.com](https://legal500.com). You can check
+some sample data in the output directory, but this is not a full run of the system.
 1) This spider would crawl all the main areas of the UK to identify potential law firms operating in these areas.
 2) It would then parse each individual firm's page and collect relevant data about these firms (location, 
    email, firm name, areas of practices, etc)
